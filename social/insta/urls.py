@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views
+from insta.views import Index
 
 urlpatterns=[
-    url('^$',views.welcome,name = 'welcome'),
+    url('', Index.as_view(), name="Index"),
 ]

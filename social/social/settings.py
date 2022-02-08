@@ -25,19 +25,20 @@ SECRET_KEY = 'django-insecure-c(ckb&g@7p7m6-e7_m(7crt=v-9)s=$pq%8nu5q^2662qc_nv!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'insta.apps.InstaConfig'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'insta'
+  
 ]
 
 MIDDLEWARE = [
