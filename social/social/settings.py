@@ -41,7 +41,7 @@ AUTHENTICATION_BACKENDS = [
 
 INSTALLED_APPS = [
     
-    
+    'bootstrap4'
      'allauth',
     'allauth.account',
     'allauth.socialaccount',
