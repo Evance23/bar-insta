@@ -41,8 +41,8 @@ AUTHENTICATION_BACKENDS = [
 
 INSTALLED_APPS = [
     
-    'bootstrap4'
-     'allauth',
+    
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'insta.apps.InstaConfig',
