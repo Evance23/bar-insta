@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http  import HttpResponse
-from . import Views 
+
 
 # Create your views here.
 # def welcome(request):
@@ -8,6 +8,5 @@ from . import Views
 
 
 
-class Index(View):
-    def get(self, request, *args, **kwargs):
-        return render(render, insta/index.html)
+def index(request):
+    return render(request, "index.html") 

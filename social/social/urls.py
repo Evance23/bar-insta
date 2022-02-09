@@ -19,6 +19,7 @@ from django.contrib import admin
 # from . import views
 
 urlpatterns = [
-    re_path(r'^admin/', admin.site.urls),
-    re_path(r'', include('insta.urls')),
+    path('admin/', admin.site.urls),
+    path('', include('insta.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
