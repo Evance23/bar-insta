@@ -58,6 +58,12 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
+CLOUDINARY = {
+  'cloud_name': '[my_cloud_name]',  
+  'api_key': '[my_api_key]',  
+  'api_secret': '[my_api_secret]',  
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
