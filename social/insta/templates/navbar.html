@@ -1,42 +1,27 @@
-<div class="navigation">
-    <div class="brand">
-      <a href="/" style="color: #000; text-decoration: none;">
-        <h1 class="brand" id="brand">INSTA 1.0</h1>
-      </a>
-    </div>
-    <form role="search" class="form-inline" action="{% url 'Search' %}">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1"
-          name="user">
-        <div class="input-group-append" type="submit">
-          <button class="input-group-text btn" type="submit"><i class="fas fa-search"></i></button>
-        </div>
-      </div>
-    </form>
-    <div class="navigation-icons">
-      <a href="/"><i class="fa fa-home" aria-hidden="true" style="color: black;"></i></a>
-      <a href="#" data-toggle="modal" data-target="#myModal">
-        <i class="far fa-user-circle" style="color: black; margin-left: 2em;"></i>
-      </a>
-    </div>
-  </div>
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document" style="position: fixed;top: 8%;right: 13%;">
-      <div class="modal-content" style="width: 180%;">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body text-left">
-            <ul style="list-style: none;">
-              <li><a href="/profile/{{request.user.id}}" style="color: black;"><strong><i class="fa fa-user-circle" aria-hidden="true" style="color: black; margin-right: 1em;"></i>My Profile</strong></a></li>
-              <li><a href="/upload/image" style="color: black;"><strong><i class="fa fa-upload" aria-hidden="true" style="color: black; margin-right: 1em;"></i>Upload Post</strong></a></li>
-              <li><a href="/logout" style="color: black;"><strong><i class="bi bi-box-arrow-right" style="color: black; margin-right: 1em;"></i>Logout</strong></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br><br><br><br>
+<div class="col-sm-6 col-md-6">
+  {% if user.is_authenticated %}
+  <ul>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                <span class="caret"></span>
+            </a>
+      <ul class="dropdown-menu" role="menu">
+        {% comment %} <li>
+          <a href="{%url 'newsToday'%}">Home</a>
+        </li> {% endcomment %}
+        <li>
+          <a href="/accounts/password/change">Change Password</a>
+        </li>
+        <li>
+          <a href="/logout">Logout</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  {% else %}
+  <li>
+    <a class='btn btn-default' href="/accounts/login">Login</a>
+  </li>
+
+  {% endif %}
+</div>

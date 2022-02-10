@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.urls import path, re_path, include
 from django.contrib import admin
+from django.contrib.auth import views 
 
 # from . import views
 
@@ -23,4 +24,5 @@ urlpatterns = [
     path('', include('insta.urls')),
     # path('accounts/', include('allauth.urls')),
     path(r'^accounts/', include('registration.backends.simple.urls')),
+    path(r'^logout/$', views.logout, {"next_page": '/'}), 
 ]
