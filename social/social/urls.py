@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path, re_path, include
 from django.contrib import admin
 from django.contrib.auth import views 
+from django.contrib.auth import views as auth_views
 
 # from . import views
 
@@ -23,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('insta.urls')),
     # path('accounts/', include('allauth.urls')),
+     path('logout/', auth_views.LogoutView.as_view(next_page='/')),
     path(r'^accounts/', include('registration.backends.simple.urls')),
     path(r'^logout/$', views.logout, {"next_page": '/'}), 
     path(r'^tinymce/', include('tinymce.urls')),
