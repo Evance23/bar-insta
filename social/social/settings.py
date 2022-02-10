@@ -41,7 +41,7 @@ AUTHENTICATION_BACKENDS = [
 
 INSTALLED_APPS = [
     
-    
+    'tinymce',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
