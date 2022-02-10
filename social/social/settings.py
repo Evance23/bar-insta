@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os 
 from pathlib import Path
+import cloudinary 
+from decouple import config, Csv
+# import dj_database_url
+# import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +30,7 @@ SECRET_KEY = 'django-insecure-c(ckb&g@7p7m6-e7_m(7crt=v-9)s=$pq%8nu5q^2662qc_nv!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS',cast=Csv())
 
 
 # Application definition
