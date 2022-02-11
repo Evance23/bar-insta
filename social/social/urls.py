@@ -27,5 +27,5 @@ urlpatterns = [
      path('logout/', auth_views.LogoutView.as_view(next_page='/')),
     path(r'^accounts/', include('registration.backends.simple.urls')),
     # path(r'^logout/$', views.logout, {"next_page": '/'}), 
-    path(r'^tinymce/', include('tinymce.urls')),
+    # path(r'^tinymce/', include('tinymce.urls')),
 ]

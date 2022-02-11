@@ -1,15 +1,16 @@
 from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
-import cloudinary
-from cloudinary.models import CloudinaryField
+# import cloudinary
+# from cloudinary.models import CloudinaryField
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import DateTimeField
+
 
 # Create your models here.  
 class Profile(models.Model):
   user=models.OneToOneField(User,on_delete=models.CASCADE)
-  profile_image=CloudinaryField('photo')
+#   profile_image=CloudinaryField('photo')
   bio=models.TextField(blank=True)
   followers=models.IntegerField(default=0)
   following=models.IntegerField(default=0)
@@ -22,7 +23,7 @@ class Profile(models.Model):
     return User.objects.filter(username=username)
 
 class Image(models.Model):
-  image = CloudinaryField('photo')
+  image =  models.ImageField(upload_to='images/')
   caption = models.TextField(blank=True)
   name = models.CharField(max_length=30)
   pub_date = models.DateTimeField(auto_now_add=True)

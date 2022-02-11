@@ -21,7 +21,7 @@ class CreateProfileForm(ModelForm):
 class UpdateProfile(ModelForm):
   class Meta:
     model = Profile
-    fields = ['bio','profile_image']
+    fields = ['bio','user']
 
 class CreatePost(ModelForm):
   class Meta:

@@ -11,14 +11,14 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os 
 from pathlib import Path
-import cloudinary 
+# import cloudinary 
 from decouple import config, Csv
 # import dj_database_url
 # import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent 
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-c(ckb&g@7p7m6-e7_m(7crt=v-9)s=$pq%8nu5q^2662qc_nv!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False 
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS',cast=Csv())
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -62,11 +62,11 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
-CLOUDINARY = {
-  'cloud_name': '[my_cloud_name]',  
-  'api_key': '[my_api_key]',  
-  'api_secret': '[my_api_secret]',  
-}
+# CLOUDINARY = {
+#   'cloud_name': '[my_cloud_name]',  
+#   'api_key': '[my_api_key]',  
+#   'api_secret': '[my_api_secret]',  
+# }
 
 
 MIDDLEWARE = [
