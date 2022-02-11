@@ -1,0 +1,3 @@
+Hello {{name}}
+
+Welcome to Insta 1.0. here you will get to meet and interact with friends and family from all over the world
