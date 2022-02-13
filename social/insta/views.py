@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django import forms
+from django.shortcuts import render, redirect 
 from django.http  import HttpResponse, Http404 
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Follow,Image,Comments
 from django.contrib.auth.models import User 
 from .forms import UnfollowForm,FollowForm,CreateProfileForm,UpdateProfile,CreatePost 
 from django.urls import reverse 
+from .email import send_welcome_email
 
 
 # Create your views here.
@@ -42,6 +44,16 @@ def index(request):
   comments=Comments.objects.all()[:5]
   count=comments.count()
   follow_suggestions=Profile.objects.all()[:6]
-  title = "Instagramex"
+  title = "Insta 1.0"
 
   return render(request,'index.html',{"all_profiles":all_profiles,"title":title,"profile":profile,"timeline_images":timeline_images,"follow_suggestions":follow_suggestions,"image_comments":comments})
+
+
+
+@login_required
+def welcome_mail(request):
+  user=request.user
+  email=user.email
+  name=user.username
+  send_welcome_email(name,email)
+  return redirect(create_profile)
