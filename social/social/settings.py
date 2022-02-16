@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os 
+import sys
 from pathlib import Path
 # import cloudinary 
 from decouple import config, Csv
@@ -50,12 +51,14 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+sys.path.append('/path/to/registration/module')
+
 INSTALLED_APPS = [
-    
+    'registration',
     'tinymce',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
     'insta.apps.InstaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
