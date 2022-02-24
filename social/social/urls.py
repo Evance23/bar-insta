@@ -13,24 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from django.urls import path, re_path, include
-# from django.contrib import admin
-# from django.contrib.auth import views 
-# from django.contrib.auth import views as auth_views
 from django.contrib import admin
-from django.urls import path,re_path, include 
+from django.urls import path,include
+# from django.conf.urls import include,url
+from django.contrib.auth import views
 from django_registration.backends.one_step.views import RegistrationView
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.views import LoginView,LogoutView 
-
-# from . import views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('insta.urls')),
-    # path('accounts/', include('allauth.urls')),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/')),
-    re_path(r'^accounts/', include('registration.backends.simple.urls')),
-    # path(r'^logout/$', views.logout, {"next_page": '/'}), 
-    re_path(r'^tinymce/', include('tinymce.urls')), 
+    path('',include('insta.urls')),
+    path('accounts/register/', RegistrationView.as_view(success_url='/'),name='django_registration_register'),
+    path('accounts/', include('django_registration.backends.one_step.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('logout/', views.logout_then_login, name='logout'),
 ]

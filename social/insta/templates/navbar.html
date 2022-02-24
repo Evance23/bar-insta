@@ -1,27 +1,36 @@
-<div class="col-sm-6 col-md-6">
-  {% if user.is_authenticated %}
-  <ul>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
-                <span class="caret"></span>
-            </a>
-      <ul class="dropdown-menu" role="menu">
-        {% comment %} <li>
-          <a href="{%url 'newsToday'%}">Home</a>
-        </li> {% endcomment %}
-        <li>
-          <a href="/accounts/password/change">Change Password</a>
-        </li>
-        <li>
-          <a href="/logout">Logout</a>
-        </li>
-      </ul>
-    </li>
+<nav id ="nav"class="navbar navbar-expand-lg navbar-danger bg-danger">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <i class="fa fa-instagram fa-4x"></i>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mb-2 mb-lg-0">
+      <div class="container-fluid search-form text-center">
+          <form class="d-flex" action="{% url 'search_results' %}">
+              <input class="form-control me-2" type="search" name="search" placeholder="Search Image Name" aria-label="Search">
+          </form>
+      </div>
   </ul>
-  {% else %}
-  <li>
-    <a class='btn btn-default' href="/accounts/login">Login</a>
-  </li>
-
-  {% endif %}
-</div>
+    {% if user.is_authenticated %}
+    <ul class="navbar-nav nav-right">
+      <li class="nav-item active">
+        <a class="nav-link" href="/"><i class="fa fa-home"></i></a>
+      </li>
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-user"></i>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/profile">My Profile</a>
+          <a class="dropdown-item" href="accounts/ password_change/ [name='password_change']
+          ">Change Password</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/logout">Logout</a>
+          {% else %}
+          <a class='dropdown-item' href="/accounts/login">Login</a>
+        </div>
+      </li>
+    </ul>
+    {% endif %}
+    </div>
+    
+</nav>

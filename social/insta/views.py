@@ -1,59 +1,118 @@
-from django import forms
-from django.shortcuts import render, redirect 
-from django.http  import HttpResponse, Http404 
+from django.http.response import Http404
+from django.shortcuts import render,redirect
+from .models import Images,Profile,Comments
 from django.contrib.auth.decorators import login_required
-from .models import Profile,Follow,Image,Comments
-from django.contrib.auth.models import User 
-from .forms import UnfollowForm,FollowForm,CreateProfileForm,UpdateProfile,CreatePost 
-from django.urls import reverse 
-from .email import send_welcome_email
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from .forms import UploadPicForm,CommentForm
+from django.contrib.auth.models import User
+
 
 
 # Create your views here.
-# def welcome(request):
-#     return HttpResponse('Welcome to the Insta')
-
-
-
 def index(request):
-    return render(request, "index.html") 
+    image = Images.objects.all().order_by('-id')
+    users = Profile.objects.all()
+    if request.method == 'POST':  
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            comm = form.save(commit=False)
+            comm.user = request.user
+            comm.save()
+            return redirect('index')
+    
+    else:
+        form = CommentForm()
+    return render(request, 'gram/home.html',{'image':image,'form':form,'users':users})
 
+@login_required(login_url='/accounts/login/')
+def profile(request):
+    current_user = request.user
+    pics = Images.objects.filter(user_id=current_user.id)
+    profile = Profile.objects.filter(user_id=current_user.id).first()
+    return render(request, 'gram/home.html', {"pics": pics, "profile": profile})
 
-#@login_required
-def index(request):
-  current_user=request.user
-  try:
-    profile= Profile.objects.get(user=current_user)
-  except Profile.DoesNotExist:
-    raise Http404()
+@login_required(login_url='/accounts/login/')
+def profile(request):
+    current_user = request.user
+    pics = Images.objects.filter(user_id=current_user.id)
+    profile = Profile.objects.filter(user_id=current_user.id).first()
+    return render(request, 'profile.html', {"pics": pics, "profile": profile})
 
-  index_timeline=[]
-  images = Image.objects.filter(profile=profile)
-  for image in images:
-    index_timeline.append(image.id)
+@login_required(login_url='/accounts/login/')
+def upload_pic(request):
+    if request.method == "POST":
+        form = UploadPicForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.save()
+        return redirect('/')
+    else:
+        form = UploadPicForm()
+    return render(request, 'post.html', {"form": form})
 
-  followers_posts=Follow.objects.filter(follower=profile)
-  for follower in followers_posts:
-    followed_profiles=follower.followed
-    followed_images=Image.profile_images(followed_profiles)
-    for images in followed_images:
-      index_timeline.append(images.id)
-  timeline_images=Image.objects.filter(pk__in=index_timeline).order_by('-pub_date')
+@login_required(login_url='/accounts/login/')
+def search_results(request):
 
-  all_profiles=Profile.objects.all()
-  comments=Comments.objects.all()[:5]
-  count=comments.count()
-  follow_suggestions=Profile.objects.all()[:6]
-  title = "Insta 1.0"
+    if 'search' in request.GET and request.GET["search"]:
+        search_term = request.GET.get("search")
+        images = Images.search_by_name(search_term)
+        message = f"{search_term}"
 
-  return render(request,'index.html',{"all_profiles":all_profiles,"title":title,"profile":profile,"timeline_images":timeline_images,"follow_suggestions":follow_suggestions,"image_comments":comments})
+        return render(request, 'gram/search.html',{"success":message,"images":images})
 
+    else:
+        message = "You haven't searched for any item!"
+        return render(request, 'all-glam/search.html',{'warning':message})
 
+@login_required(login_url='/accounts/login/')
+def comments(request,image_id):
+  form = CommentForm()
+  image = Images.objects.filter(pk = image_id).first()
+  if request.method == 'POST':
+    form = CommentForm(request.POST)
+    if form.is_valid():
+      comment = form.save(commit = False)
+      comment.user = request.user
+      comment.image = image
+      comment.save() 
+  return redirect('index')
 
-@login_required
-def welcome_mail(request):
-  user=request.user
-  email=user.email
-  name=user.username
-  send_welcome_email(name,email)
-  return redirect(create_profile)
+@login_required(login_url='/accounts/login/')
+def update_profile(request):
+    if request.method == 'POST':
+        current_user = request.user
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        bio = request.POST['bio']
+
+        profile_image = request.FILES['profile_pic']
+        profile_image = cloudinary.uploader.upload(profile_image)
+        profile_url = profile_image['url']
+
+        user = User.objects.get(id=current_user.id)
+
+        # check if user exists in profile table and if not create a new profile
+        if Profile.objects.filter(user_id=current_user.id).exists():
+
+            profile = Profile.objects.get(user_id=current_user.id)
+            profile.prof_photo = profile_url
+            profile.bio = bio
+            profile.save()
+        else:
+            profile = Profile(user_id=current_user.id,profile_photo=profile_url, bio=bio)
+            profile.save_profile()
+
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = username
+        user.email = email
+
+        user.save()
+
+        return redirect('/profile', {'success': 'Profile Updated Successfully'})
+    else:
+        return render(request, 'profile.html', {'danger': 'Profile Update Failed'})

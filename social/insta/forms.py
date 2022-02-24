@@ -1,29 +1,18 @@
-from django.db import models
-from django.db.models import fields
-from .models import Image,Follow,Profile,Comments
-from django.forms import  ModelForm
+from .models import Images,Comments,Profile
+from django.forms import ModelForm
+from django import forms
 
-class FollowForm(ModelForm):
-  class Meta:
-    model = Follow
-    exclude = ['followed','follower']
+class UploadPicForm(ModelForm):
+    class Meta:
+        model = Images
+        fields = ('image','name','caption',)
 
-class UnfollowForm(ModelForm):
-  class Meta:
-    model = Follow
-    exclude = ['followed','follower']
-
-class CreateProfileForm(ModelForm):
-  class Meta:
-    model = Profile
-    exclude = ['user','followers','following']
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model=Comments       
+        fields=['comment']
 
 class UpdateProfile(ModelForm):
   class Meta:
     model = Profile
     fields = ['bio','user']
-
-class CreatePost(ModelForm):
-  class Meta:
-    model = Image
-    fields = ['image','caption','name'] 
